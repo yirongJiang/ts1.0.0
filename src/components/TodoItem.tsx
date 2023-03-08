@@ -1,12 +1,12 @@
-import React from 'react'
-import { StateProps } from './Todo'
+import React, { useContext } from 'react'
+import { todoContext } from './Myprovider';
+import { StateProps } from './Myprovider'
 interface IProps {
   todo: StateProps;
-  changeTodo: (id: number) => void
-  deleteTodo: (id: number) => void
 }
 
-export default function TodoItem({ todo, changeTodo, deleteTodo }: IProps) {
+export default function TodoItem({ todo }: IProps) {
+  const {deleteTodo,changeTodo}=useContext(todoContext)
 
   const changeHandler = () => {
     changeTodo(todo.id)

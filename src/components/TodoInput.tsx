@@ -1,25 +1,27 @@
-import React, { useState } from "react"
-import { StateProps } from "./Todo"
+import React, { useContext, useState } from "react"
+import { todoContext } from "./Myprovider"
+// import { StateProps } from "./Todo"
 
-interface IProps {
-  addTodo: (todo: StateProps) => void
-}
+// interface IProps {
+//   addTodo: (todo: StateProps) => void
+// }
 
-export default function TodoInput({addTodo}: IProps) {
+export default function TodoInput() {
   const [text, setText] = useState('')
+  const { addTodo } = useContext(todoContext)
 
   const changeTextHandler = (e: React.ChangeEvent) => {
     setText((e.target as HTMLInputElement).value)
   }
   const addToHandler = () => {
     addTodo({
-      id : new Date().getTime(),
-      text:text,
-      isFinished:false
+      id: new Date().getTime(),
+      text: text,
+      isFinished: false
     })
     setText('')
     console.log(text)
-   }
+  }
 
   return (
     <div>
