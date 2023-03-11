@@ -1,4 +1,5 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useReducer, useState } from 'react'
+import { ActionProps, reducer } from '../store/reducer';
 
 export interface StateProps {
   id: number;
@@ -6,48 +7,21 @@ export interface StateProps {
   isFinished: boolean;
 }
 export interface ContextProps {
-  todoList: StateProps[],
-  deleteTodo: (id: number) => void,
-  addTodo: (todo:StateProps) => void,
-  changeTodo: (id: number) => void
+  state: StateProps[],
+ dispatch:React.Dispatch<ActionProps>
 }
 
 export const todoContext = React.createContext({} as ContextProps)
 
 export default function Myprovider(props: React.PropsWithChildren<{}>) {
-  const [todoList, setTodoList] = useState<StateProps[]>([])
-  const deleteTodo = (id: number) => {
-    const newTodoList = [...todoList]
-    newTodoList.forEach((item, index) => {
-      if (id === item.id) {
-        newTodoList.splice(index, 1)
-      }
-    })
-    setTodoList(newTodoList)
-  }
 
-  const changeTodo = (id: number) => {
-    const newTodoList = todoList.map(item => {
-      if (item.id === id) {
-        return Object.assign({}, item, {
-          isFinished: !item.isFinished
-        })
-      }
-      return item
-    })
-    setTodoList(newTodoList)
-  }
-
-  const addTodo = (todo: StateProps) => {
-    setTodoList([...todoList, todo])
-  }
+  const initState: StateProps[] = []
+  const [state, dispatch] = useReducer(reducer, initState)
 
   return (
-    <todoContext.Provider value={{
-      deleteTodo,
-      addTodo,
-      changeTodo,
-      todoList
+    <todoContext.Provider 
+    value={{
+      state, dispatch
     }}>
       {props.children}
     </todoContext.Provider>

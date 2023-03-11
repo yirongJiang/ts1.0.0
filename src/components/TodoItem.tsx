@@ -1,15 +1,18 @@
 import React, { useContext } from 'react'
 import { todoContext } from './Myprovider';
-import { StateProps } from './Myprovider'
+import { StateProps } from '../store/reducer'
 interface IProps {
   todo: StateProps;
 }
 
 export default function TodoItem({ todo }: IProps) {
-  const {deleteTodo,changeTodo}=useContext(todoContext)
+  const { dispatch } = useContext(todoContext)
 
   const changeHandler = () => {
-    changeTodo(todo.id)
+    dispatch({
+      type: 'CHANGEFINISHED',
+      id: todo.id
+    })
   }
 
   const spanStyle = {
@@ -17,7 +20,10 @@ export default function TodoItem({ todo }: IProps) {
   }
 
   const deleteHandler = () => {
-    deleteTodo(todo.id)
+    dispatch({
+      type: 'DELETE',
+      id: todo.id
+    })
   }
   return (
     <div>

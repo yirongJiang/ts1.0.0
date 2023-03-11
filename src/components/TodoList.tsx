@@ -11,8 +11,8 @@ interface IProps {
 
 
 export default function TodoList() {
-  const {todoList}=useContext(todoContext)
-  const todoListdom = todoList.map((item,index )=> <TodoItem todo={item}  />)
+  const {state}=useContext(todoContext)
+  const todoListdom = state.map((item,index )=> <TodoItem todo={item}  />)
   return (
     <div>{todoListdom}</div>
   )
